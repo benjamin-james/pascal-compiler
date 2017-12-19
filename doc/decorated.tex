@@ -1,0 +1,310 @@
+
+ 1    \textcolor{black}{void} \emph{program} $\rightarrow$ \textbf{program} \textcolor{black}{\{\{offset$ = 0$\}\}} \textbf{id} \textcolor{black}{\{\{checkaddgreen($id$.lex, TYPE\_PGM)\}\}} \textbf{(} \emph{identifier\_list} \textbf{)} \textbf{;}
+
+ \emph{declarations} \emph{subprogram\_declarations}  \emph{compound\_statement} \textbf{.}
+
+
+2.1.1  \textcolor{black}{void} \emph{identifier\_list} $\rightarrow$ \textbf{id} \textcolor{black}{\{\{checkaddblue($id$.lex, TYPE\_IDLIST)\}\}} \emph{identifier\_list\textprime}
+
+2.2.1  \textcolor{black}{void} \emph{identifier\_list\textprime} $\rightarrow$ \textbf{,} \textbf{id} \textcolor{black}{\{\{checkaddblue($id$.lex, TYPE\_IDLIST)\}\}} \emph{identifier\_list\textprime}
+
+2.2.2  \textcolor{black}{void} \emph{identifier\_list\textprime} $\rightarrow$ $\epsilon$
+
+3.1.1  \textcolor{black}{void} \emph{declarations} $\rightarrow$ \textbf{var} \textbf{id} \textbf{:} \emph{type} \textcolor{black}{\{\{checkaddblue($id$.lex, $type$.type, offset); offset += $type$.width\}\}} \textbf{;} \emph{declarations}
+
+3.2.1 \textcolor{black}{void} \emph{declarations} $\rightarrow$ $\epsilon$
+
+4.1  \textcolor{black}{$type$.type} \emph{type} $\rightarrow$ \emph{standard\_type} \textcolor{black}{\{\{$type$.type = $standard\_type$.type; $type$.width = $standard\_type$.width\}\}}
+
+4.2  \textcolor{black}{$type$.type} \emph{type} $\rightarrow$ \textbf{array} \textbf{[} \textbf{num} \textbf{..} \textbf{num} \textbf{]} \textbf{of} \emph{standard\_type}
+
+\textcolor{black}{\{\{$type$.width = $(num_2 - num_1 + 1)$ * $standard\_type$.width\}\}}
+
+\begin{tabular}[t]{|ccc|}
+
+  \hline
+
+  $type$.type & \textbf{$\leftarrow$} & $standard\_type$.type \\
+
+  \hline
+                                                                                                                                              TYPE\_AINT & if & TYPE\_INT\\
+  TYPE\_AREAL & if & TYPE\_REAL \\
+
+  ERR & if & ERR \\
+
+  ERR* & otherwise & \\
+
+  \hline
+
+                                                                                                                                            \end{tabular}
+
+
+
+5.1  \textcolor{black}{$standard\_type$.type} \emph{standard\_type} $\rightarrow$ \textbf{integer} \textcolor{black}{\{\{$standard\_type$.type = TYPE\_INT; $standard\_type$.width = 4\}\}}
+
+5.2  \textcolor{black}{$standard\_type$.type} \emph{standard\_type} $\rightarrow$ \textbf{real} \textcolor{black}{\{\{$standard\_type$.type = TYPE\_REAL; $standard\_type$.width = 8\}\}}
+
+6.1.1  \textcolor{black}{void} \emph{subprogram\_declarations} $\rightarrow$ \emph{subprogram\_declaration} \textbf{;} \emph{subprogram\_declarations}
+
+6.2.1  \textcolor{black}{void} \emph{subprogram\_declarations} $\rightarrow$ $\epsilon$
+
+7    \textcolor{black}{void} \emph{subprogram\_declaration} $\rightarrow$ \emph{subprogram\_head} \emph{declarations}
+
+\emph{subprogram\_declarations} \emph{compound\_statement} \textcolor{black}{\{\{endgreenscope();\}\}}
+
+8  \textcolor{black}{void}  \emph{subprogram\_head} $\rightarrow$ \textbf{function} \textbf{id} \textcolor{black}{\{\{checkaddgreen($id$.lex, TYPE\_PLACEHOLDER)\}\}}
+
+\emph{arguments} \textbf{:} \emph{standard\_type} \textcolor{black}{\{\{eye\_stack.peek().args = $arguments$.str\}\}} \textbf{;}
+
+\begin{tabular}[t]{|ccc|}
+  \hline
+
+  eye\_stack.peek().type & \textbf{$\leftarrow$} & $standard\_type$.type \\
+
+  \hline
+
+  TYPE\_FINT & if & TYPE\_INT \\
+
+  TYPE\_FREAL & if & TYPE\_REAL \\
+
+  ERR  & if & ERR \\
+
+  ERR* & otherwise & \\
+
+  \hline
+\end{tabular}
+
+
+9.1  \textcolor{black}{$arguments$.str} \emph{arguments} $\rightarrow$ \textbf{(} \emph{parameter\_list} \textbf{)} \textcolor{black}{\{\{$arguments$.str = $parameter\_list$.str\}\}}
+
+9.2  \textcolor{black}{$arguments$.str} \emph{arguments} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$arguments$.str = ``''\}\}}
+
+10.1.1 \textcolor{black}{$parameter\_list$.str} \emph{parameter\_list} $\rightarrow$ \textbf{id} \textbf{:} \emph{type} \textcolor{black}{\{\{checkaddblue($id$.lex, $type$.type, 0); \}\}}
+
+\emph{parameter\_list\textprime} \textcolor{black}{\{\{$parameter\_list$.str = type2str($type$.type) . $parameter\_list$\textprime.str\}\}}
+
+10.2.1 \textcolor{black}{$parameter\_list\textprime$.str} \emph{parameter\_list\textprime} $\rightarrow$ \textbf{;} \textbf{id} \textbf{:} \emph{type} \textcolor{black}{\{\{checkaddblue($id$.lex, $type$.type, 0); \}\}}
+
+\emph{parameter\_list\textprime} \textcolor{black}{\{\{$parameter\_list$\textprime.str = type2str($type$.type) . $parameter\_list_1$\textprime.str\}\}}
+
+
+10.2.2 \textcolor{black}{$parameter\_list\textprime$.str} \emph{parameter\_list\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$parameter\_list$\textprime.str = ``''\}\}}
+
+11   \textcolor{black}{void} \emph{compound\_statement} $\rightarrow$ \textbf{begin} \emph{optional\_statements} \textbf{end}
+
+12.1 \textcolor{black}{void} \emph{optional\_statements} $\rightarrow$ \emph{statement\_list}
+
+12.2 \textcolor{black}{void} \emph{optional\_statements} $\rightarrow$ $\epsilon$
+
+13.1.1 \textcolor{black}{void} \emph{statement\_list} $\rightarrow$ \emph{statement} \emph{statement\_list\textprime}
+
+13.2.1 \textcolor{black}{void} \emph{statement\_list\textprime} $\rightarrow$ \textbf{;} \emph{statement} \emph{statement\_list\textprime}
+
+13.2.2 \textcolor{black}{void} \emph{statement\_list\textprime} $\rightarrow$ $\epsilon$
+
+14.1.1 \textcolor{black}{void} \emph{statement} $\rightarrow$ \emph{variable} \textbf{assignop} \emph{expression}
+
+\begin{tabular}[t]{|c|c|c|c|}
+  \hline
+
+  $statement$.type & \textbf{$\leftarrow$} & $variable$.type & $expression$.type \\
+
+  \hline
+
+  ERR* & if & Undeclared &  \\
+  ERR & if & ERR & \\
+  ERR & if & & ERR \\
+  VOID & if & TYPE\_INT & TYPE\_INT \\
+  VOID & if & TYPE\_FINT & TYPE\_INT \\
+  VOID & if & TYPE\_REAL & TYPE\_REAL \\
+  VOID & if & TYPE\_FREAL & TYPE\_REAL \\
+  ERR* & otherwise &  &  \\
+  \hline
+
+\end{tabular}
+
+14.2.1 \textcolor{black}{void} \emph{statement} $\rightarrow$ \emph{compound\_statement}
+
+14.3.1 \textcolor{black}{void} \emph{statement} $\rightarrow$ \textbf{if} \emph{expression} \textcolor{black}{\{\{check($expression$.type == TYPE\_BOOL)\}\}} \textbf{then} \emph{statement} \emph{statement\textprime}
+
+14.4.1 \textcolor{black}{void} \emph{statement\textprime} $\rightarrow$ \textbf{else} \emph{statement}
+
+14.4.2 \textcolor{black}{void} \emph{statement\textprime} $\rightarrow$ $\epsilon$
+
+14.5.1 \textcolor{black}{void} \emph{statement} $\rightarrow$ \textbf{while} \emph{expression} \textcolor{black}{\{\{check($expression$.type == TYPE\_BOOL)\}\}} \textbf{do} \emph{statement}
+
+15.1.1 \textcolor{black}{$variable$.type} \emph{variable} $\rightarrow$ \textbf{id} \textcolor{black}{\{\{$variable\textprime$.i = gettype($id$.lex)\}\}} \emph{variable\textprime} \textcolor{black}{\{\{$variable$.type = $variable\textprime$.type\}\}}
+
+15.2.1 \textcolor{black}{$variable\textprime$.type} \emph{variable\textprime} $\rightarrow$ \textbf{[} \emph{expression} \textbf{]}
+
+\begin{tabular}[t]{|c|c|c|c|}
+  \hline
+
+  $variable\textprime$.type & \textbf{$\leftarrow$} & $expression$.type & $variable\textprime$.i \\
+
+  \hline
+
+  ERR* & if & & Undeclared \\
+  TYPE\_INT & if & TYPE\_INT & TYPE\_AINT \\
+  TYPE\_REAL & if & TYPE\_INT & TYPE\_AREAL \\
+  ERR & if & ERR & \\
+  ERR & if & & ERR \\
+  ERR* & if & $\neg$TYPE\_INT & \\
+  ERR* & if & & $\neg$TYPE\_AINT $and$ $\neg$TYPE\_AREAL \\
+
+  \hline
+
+\end{tabular}
+
+
+15.2.2 \textcolor{black}{$variable\textprime$.type} \emph{variable\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$variable\textprime$.type = $variable\textprime$.i\}\}}
+
+16.1.1 \textcolor{black}{$expression\_list$.str} \emph{expression\_list} $\rightarrow$ \emph{expression} \emph{expression\_list\textprime}
+
+\textcolor{black}{\{\{$expression\_list$.str = type2str($expression$.type) . $expression\_list\textprime$.str\}\}}
+
+16.2.1 \textcolor{black}{$expression\_list\textprime$.str} \emph{expression\_list\textprime} $\rightarrow$ \textbf{,} \emph{expression} \emph{expression\_list\textprime}
+
+\textcolor{black}{\{\{$expression\_list\textprime$.str = type2str($expression$.type) . $expression\_list_1\textprime$.str\}\}}
+
+16.2.2 \textcolor{black}{$expression\_list\textprime$.str} \emph{expression\_list\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$expression\_list\textprime$.str = ``''\}\}}
+
+17.1.1 \textcolor{black}{$expression$.type} \emph{expression} $\rightarrow$ \emph{simple\_expression} \textcolor{black}{\{\{$expression\textprime$.i = $simple\_expression$.type\}\}}
+
+\emph{expression\textprime} \textcolor{black}{\{\{$expression$.type = $expression\textprime$.type\}\}}
+
+17.2.1 \textcolor{black}{$expression\textprime$.type} \emph{expression\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$expression\textprime$.type = $expression\textprime$.i\}\}}
+
+17.2.2 \textcolor{black}{$expression\textprime$.type} \emph{expression\textprime} $\rightarrow$ \textbf{relop} \emph{simple\_expression}
+
+\begin{tabular}[t]{|c|c|c|c|}
+  \hline
+
+  $expression\textprime$.type & \textbf{$\leftarrow$} & $simple\_expression$.type & $expression\textprime$.i \\
+
+  \hline
+
+  TYPE\_BOOL & if & TYPE\_INT & TYPE\_INT \\
+  TYPE\_BOOL & if & TYPE\_REAL & TYPE\_REAL \\
+  ERR & if & ERR & \\
+  ERR & if & & ERR \\
+  ERR* & otherwise & & \\
+  \hline
+
+\end{tabular}
+
+18.1.1 \textcolor{black}{$simple\_expression$.type} \emph{simple\_expression} $\rightarrow$ \emph{term} \textcolor{black}{\{\{$simple\_expression\textprime$.i = $term$.type\}\}}
+
+\emph{simple\_expression\textprime} \textcolor{black}{\{\{$simple\_expression$.type = $simple\_expression\textprime$.type\}\}}
+
+18.2.1 \textcolor{black}{$simple\_expression$.type} \emph{simple\_expression} $\rightarrow$ \emph{sign} \emph{term}
+
+\textcolor{black}{\{\{ERR* if $term$.type $\notin$ \{TYPE\_REAL,TYPE\_INT,ERR\} \}\}}
+
+\textcolor{black}{\{\{$simple\_expression\textprime$.i = $term$.type\}\}}
+ \emph{simple\_expression\textprime} \textcolor{black}{\{\{$simple\_expression$.type = $simple\_expression\textprime$.type\}\}}
+
+ 18.3.1  \textcolor{black}{$simple\_expression\textprime$.type} \emph{simple\_expression\textprime} $\rightarrow$ \textbf{addop} \emph{term} \emph{simple\_expression\textprime}
+
+ \textcolor{black}{\{\{$simple\_expression\textprime$.type = $simple\_expression\textprime_1$.type\}\}}
+
+\begin{tabular}[t]{|c|c|c|c|c|}
+  \hline
+
+ $simple\_expression\textprime_1$.i & \textbf{$\leftarrow$} & $simple\_expression\textprime$.i & \textbf{addop}.attr &  $term$.type \\
+
+  \hline
+
+  TYPE\_INT & if & TYPE\_INT & + & TYPE\_INT \\
+  TYPE\_INT & if & TYPE\_INT & - & TYPE\_INT \\
+  TYPE\_REAL & if & TYPE\_REAL & + & TYPE\_REAL \\
+  TYPE\_REAL & if & TYPE\_REAL & - & TYPE\_REAL \\
+  TYPE\_BOOL & if & TYPE\_BOOL & $or$ & TYPE\_BOOL \\
+  ERR & if & ERR & & \\
+  ERR & if & & & ERR \\
+  ERR* & otherwise & & & \\
+  \hline
+
+\end{tabular}
+
+18.3.2 \textcolor{black}{$simple\_expression\textprime$.type} \emph{simple\_expression\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$simple\_expression\textprime$.type = $simple\_expression\textprime$.i\}\}}
+
+19.1.1 \textcolor{black}{$term$.type} \emph{term} $\rightarrow$ \emph{factor} \textcolor{black}{\{\{$term\textprime$.i = $factor$.type\}\}} \emph{term\textprime} \textcolor{black}{\{\{$term$.type = $term\textprime$.type\}\}}
+
+19.2.1 \textcolor{black}{$term\textprime$.type} \emph{term\textprime} $\rightarrow$ \textbf{mulop} \emph{factor} \emph{term\textprime} \textcolor{black}{\{\{$term$.type = $term\textprime$.type\}\}}
+
+\begin{tabular}[t]{|c|c|c|c|c|}
+  \hline
+
+ $term\textprime_1$.i & \textbf{$\leftarrow$} & $term\textprime$.i & \textbf{mulop}.attr &  $factor$.type \\
+
+  \hline
+
+  TYPE\_INT & if & TYPE\_INT & * & TYPE\_INT \\
+  TYPE\_REAL & if & TYPE\_REAL & * & TYPE\_REAL \\
+  TYPE\_REAL & if & TYPE\_REAL & / & TYPE\_REAL \\
+  TYPE\_INT & if & TYPE\_INT & $div$ & TYPE\_INT \\
+  TYPE\_INT & if & TYPE\_INT & $mod$ & TYPE\_INT \\
+  TYPE\_BOOL & if & TYPE\_BOOL & $and$ & TYPE\_BOOL \\
+  ERR & if & ERR & & \\
+  ERR & if & & & ERR \\
+  ERR* & otherwise & & & \\
+  \hline
+
+\end{tabular}
+
+19.2.2 \textcolor{black}{$term\textprime$.type} \emph{term\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$term\textprime$.type = $term\textprime$.i\}\}}
+
+\clearpage{}
+20.1.1 \textcolor{black}{$factor$.type} \emph{factor} $\rightarrow$ \textbf{id} \textcolor{black}{\{\{$factor\textprime$.i = gettype($id$.lex)\}\}} \emph{factor\textprime} \textcolor{black}{\{\{$factor$.type = $factor\textprime$.type \}\}}
+
+20.2.1 \textcolor{black}{$factor\textprime$.type} \emph{factor\textprime} $\rightarrow$ \textbf{[} \emph{expression} \textbf{]}
+
+\begin{tabular}[t]{|c|c|c|c|}
+  \hline
+
+  $factor\textprime$.type & \textbf{$\leftarrow$} & $expression$.type & $factor\textprime$.i \\
+
+  \hline
+  ERR* & if & & Undeclared \\
+  TYPE\_INT & if & TYPE\_INT & TYPE\_AINT \\
+  TYPE\_REAL & if & TYPE\_INT & TYPE\_AREAL \\
+  ERR & if & ERR & \\
+  ERR & if & & ERR \\
+  ERR* & if & $\neg$TYPE\_INT & \\
+  ERR* & if & & $\neg$TYPE\_AINT $and$ $\neg$TYPE\_AREAL \\
+
+  \hline
+
+\end{tabular}
+
+20.2.2 \textcolor{black}{$factor\textprime$.type} \emph{factor\textprime} $\rightarrow$ $\epsilon$ \textcolor{black}{\{\{$factor\textprime$.type = $factor\textprime$.i if $declared$ $and$ $\in$ \{TYPE\_INT, TYPE\_REAL\} \}\}}
+
+20.3.1 \textcolor{black}{$factor\textprime$.type} \emph{factor\textprime} $\rightarrow$ \textbf{(} \emph{expression\_list} \textbf{)}
+
+\textcolor{black}{\{\{$factor\textprime$.type = funtype_to_scalar($factor\textprime$.i); check($expression\_list$.str == get_args($factor\textprime$.i)) \}\}}
+
+\begin{tabular}[t]{|c|c|c|}
+  \hline
+
+  $factor\textprime$.type & \textbf{$\leftarrow$} & $factor\textprime$.i \\
+
+  \hline
+  ERR* & if & Undeclared \\
+  ERR* & if & $\neg$TYPE\_FINT $and$ $\neg$TYPE\_FREAL \\
+  TYPE\_INT & if & TYPE\_FINT \\
+  TYPE\_REAL & if & TYPE\_FREAL \\
+
+  \hline
+
+\end{tabular}
+
+20.4.1 \textcolor{black}{$factor$.type} \emph{factor} $\rightarrow$ \textbf{num} \textcolor{black}{\{\{$factor$.type = \textbf{num}.type \}\}}
+
+20.5.1 \textcolor{black}{$factor$.type} \emph{factor} $\rightarrow$ \textbf{(} \emph{expression} \textbf{)} \textcolor{black}{\{\{$factor$.type = $expression$.type \}\}}
+
+20.6.1 \textcolor{black}{$factor$.type} \emph{factor} $\rightarrow$ \textbf{not} \emph{factor} \textcolor{black}{\{\{$factor$.type = $factor_1$.type $unless$ $factor_1$.type $\notin$ \{TYPE\_BOOL,ERR\} \}\}}
+
+21.1 \textcolor{black}{void} \emph{sign} $\rightarrow$ \textbf{+}
+
+21.2 \textcolor{black}{void} \emph{sign} $\rightarrow$ \textbf{-}

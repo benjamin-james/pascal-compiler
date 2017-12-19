@@ -1,0 +1,128 @@
+#+OPTIONS: html-link-use-abs-url:nil html-postamble:nil
+#+OPTIONS: html-preamble:t html-scripts:t html-style:t
+#+OPTIONS: html5-fancy:nil tex:t num:t toc:nil
+#+HTML_CONTAINER: div
+#+HTML_DOCTYPE: xhtml-strict
+#+HTML_HEAD: Benjamin James
+#+HTML_HEAD_EXTRA:
+#+HTML_LINK_HOME:
+#+HTML_LINK_UP:
+#+HTML_MATHJAX:
+#+INFOJS_OPT:
+#+LATEX_HEADER: \usepackage{titlesec}
+#+LATEX_HEADER: \usepackage{xpatch}
+#+LATEX_HEADER: \titleformat{\section}{\normalfont\fontfamily{phv}\fontsize{16}{19}\normalfont}{\thesection}{1em}{}
+#+LATEX_HEADER: \titleformat{\subsection}{\normalfont\fontfamily{phv}\fontsize{14}{17}\normalfont}{\thesubsection}{1em}{}
+#+LATEX_HEADER: \titleformat{\subsubsection}{\normalfont\fontfamily{phv}\fontsize{14}{17}\selectfont}{\thesubsubsection}{1em}{}
+#+LATEX: \xpretocmd{\section}{\clearpage}{}{}
+#+TITLE: Grammar
+* \normalfont\textit{program}
+** /program/ \rightarrow *program* *id* *(* /identifier\under{}list/ *)* *;* /declarations/ /subprogram\under{}declarations/ /compound\under{}statement/ *.*
+* /identifier\under{}list/
+** /identifier\under{}list/ \rightarrow *id*
+*** /identifier\under{}list/ \rightarrow  *id* /identifier\under{}list\prime/
+** /identifier\under{}list/ \rightarrow /identifier\under{}list/ *,* *id*
+*** /identifier\under{}list\prime/ \rightarrow *,* *id*  /identifier\under{}list\prime/
+*** /identifier\under{}list\prime/ \rightarrow \epsilon
+* /declarations/
+** /declarations/ \rightarrow /declarations/ *var* *id* *:* /type/ *;*
+*** /declarations/ \rightarrow *var* *id* *:* /type/ *;* /declarations/
+** /declarations/ \rightarrow \epsilon
+*** /declarations/ \rightarrow \epsilon
+* /type/
+** /type/ \rightarrow /standard\under{}type/
+** /type/ \rightarrow *array* *[* *num* *..* *num* *]* *of* /standard\under{}type/
+* /standard\under{}type/
+** /standard\under{}type/ \rightarrow *integer*
+** /standard\under{}type/ \rightarrow *real*
+* /subprogram\under{}declarations/
+** /subprogram\under{}declarations/ \rightarrow /subprogram\under{}declarations/ /subprogram\under{}declaration/ *;*
+*** /subprogram\under{}declarations/ \rightarrow /subprogram\under{}declaration/ *;* /subprogram\under{}declarations/
+** /subprogram\under{}declarations/ \rightarrow \epsilon
+*** /subprogram\under{}declarations/ \rightarrow \epsilon
+* /subprogram\under{}declaration/
+** /subprogram\under{}declaration/ \rightarrow /subprogram\under{}head/ /declarations/ /subprogram\under{}declarations/ /compound\under{}statement/
+* /subprogram\under{}head/
+** /subprogram\under{}head/ \rightarrow *function* *id* /arguments/ *:* /standard\under{}type/ *;*
+* /arguments/
+** /arguments/ \rightarrow *(* /parameter\under{}list/ *)*
+** /arguments/ \rightarrow \epsilon
+* /parameter\under{}list/
+** /parameter\under{}list/ \rightarrow *id* *:* /type/
+*** /parameter\under{}list/ \rightarrow *id* *:* /type/ /parameter\under{}list\prime/
+** /parameter\under{}list/ \rightarrow /parameter\under{}list/ *;* *id* *:* /type/
+*** /parameter\under{}list\prime/ \rightarrow *;* *id* *:* /type/ /parameter\under{}list\prime/
+*** /parameter\under{}list\prime/ \rightarrow \epsilon
+* /compound\under{}statement/
+** /compound\under{}statement/ \rightarrow *begin* /optional\under{}statements/ *end*
+* /optional\under{}statements/
+** /optional\under{}statements/ \rightarrow /statement\under{}list/
+** /optional\under{}statements/ \rightarrow \epsilon
+* /statement\under{}list/
+** /statement\under{}list/ \rightarrow /statement/
+*** /statement\under{}list/ \rightarrow /statement/ /statement\under{}list\prime/
+** /statement\under{}list/ \rightarrow /statement\under{}list/ *;* /statement/
+*** /statement\under{}list\prime/ \rightarrow *;* /statement/ /statement\under{}list\prime/
+*** /statement\under{}list\prime/ \rightarrow \epsilon
+* /statement/
+** /statement/ \rightarrow /variable/ *assignop* /expression/
+*** /statement/ \rightarrow /variable/ *assignop* /expression/
+** /statement/ \rightarrow /compound\under{}statement/
+*** /statement/ \rightarrow /compound\under{}statement/
+** /statement/ \rightarrow *if* /expression/ *then* /statement/
+*** /statement/ \rightarrow *if* /expression/ *then* /statement/ /statement\prime/
+** /statement/ \rightarrow *if* /expression/ *then* /statement/ *else* /statement/
+*** /statement\prime/ \rightarrow *else* /statement/
+*** /statement\prime/ \rightarrow \epsilon
+** /statement/ \rightarrow *while* /expression/ *do* /statement/
+*** /statement/ \rightarrow *while* /expression/ *do* /statement/
+
+* /variable/
+** /variable/ \rightarrow *id*
+*** /variable/ \rightarrow *id* /variable\prime/
+** /variable/ \rightarrow *id* *[* /expression/ *]*
+*** /variable\prime/ \rightarrow *[* /expression/ *]*
+*** /variable\prime/ \rightarrow \epsilon
+* /expression\under{}list/
+** /expression\under{}list/ \rightarrow /expression/
+*** /expression\under{}list/ \rightarrow /expression/ /expression\under{}list\prime/
+** /expression\under{}list/ \rightarrow /expression\under{}list/ , /expression/
+*** /expression\under{}list\prime/ \rightarrow *,* /expression/ /expression\under{}list\prime/
+*** /expression\under{}list\prime/ \rightarrow \epsilon
+* /expression/
+** /expression/ \rightarrow /simple\under{}expression/
+*** /expression/ \rightarrow /simple\under{}expression/ /expression\prime/
+** /expression/ \rightarrow /simple\under{}expression/ *relop* /simple\under{}expression/
+*** /expression\prime/ \rightarrow \epsilon
+*** /expression\prime/ \rightarrow *relop* /simple\under{}expression/
+* /simple\under{}expression/
+** /simple\under{}expression/ \rightarrow /term/
+*** /simple\under{}expression/ \rightarrow /term/ /simple\under{}expression\prime/
+** /simple\under{}expression/ \rightarrow /sign/ /term/
+*** /simple\under{}expression/ \rightarrow /sign/ /term/ /simple\under{}expression\prime/
+** /simple\under{}expression/ \rightarrow /simple\under{}expression/ *addop* /term/
+*** /simple\under{}expression\prime/ \rightarrow *addop* /term/ /simple\under{}expression\prime/
+*** /simple\under{}expression\prime/ \rightarrow \epsilon
+* /term/
+** /term/ \rightarrow /factor/
+*** /term/ \rightarrow /factor/ /term\prime/
+** /term/ \rightarrow /term/ *mulop* /factor/
+*** /term\prime/ \rightarrow *mulop* /factor/ /term\prime/
+*** /term\prime/ \rightarrow \epsilon
+* /factor/
+** /factor/ \rightarrow *id*
+*** /factor/ \rightarrow *id* /factor\prime/
+** /factor/ \rightarrow *id* *[* /expression/ *]*
+*** /factor\prime/ \rightarrow *[* /expression/ *]*
+*** /factor\prime/ \rightarrow \epsilon
+** /factor/ \rightarrow *id* *(* /expression\under{}list/ *)*
+*** /factor\prime/ \rightarrow *(* /expression\under{}list/ *)*
+** /factor/ \rightarrow *num*
+*** /factor/ \rightarrow *num*
+** /factor/ \rightarrow *(* /expression/ *)*
+*** /factor/ \rightarrow *(* /expression/ *)*
+** /factor/ \rightarrow *not* /factor/
+*** /factor/ \rightarrow *not* /factor/
+* /sign/
+** /sign/ \rightarrow *+*
+** /sign/ \rightarrow *-*

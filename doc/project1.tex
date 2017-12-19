@@ -1,0 +1,121 @@
+\documentclass[titlepage]{article}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{flexisym}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[margin=0.5in]{geometry}
+
+
+\lstset{
+  numbers=left,
+  numberstyle=\tiny,
+  basicstyle=\ttfamily,
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{black},
+  frame=tb,
+%  tabsize=4,
+%  columns=fullflexible,
+  title=\lstname
+}
+\setlength\columnsep{15pt}
+
+\author{Benjamin James}
+\title{\textbf{CS 4013:  Compiler Construction \\ Project 1}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+This project is a lexical analyzer for the Pascal language. The lexer is a standalone program written in C that reads a source file and a reserved word file and produces tokens, detects and displays errors, produces a listing file, and prints out a symbol table. This is done by breaking up the input into lines and reading each line into a 72-character max buffer to be parsed. Each line is sent to a machine that breaks up lexemes and finds the appropriate representation.
+
+\section*{Methodology}
+
+The purpose of the lexical analyzer is to break up a source file into little pieces that can be properly analyzed by the parser. These little pieces are called tokens and can be passed to a parser of a compiler to produce a parse tree. To do this, each token has to have a type and attribute to show type and value differences to the parser. After reading in reserved words, the lexer is able to determine each lexeme and its corresponding type-attribute pair. According to the specifications of the language provided\cite{Aho86} (e.g. 72 chars max line) errors are also detected and reported. Determining each token is done by finite state machines, specifically NFA with epsilons. This is done as shown in class by using a forward and backward pointer to the line. Specifically, this is advancing to each machine in order, setting the backward pointer if the machine succeeds, otherwise reseting the forward pointer to the backward pointer. Each type has a corresponding machine.
+
+\section*{Implementation}
+
+The implementation is done in ANSI C.  See Appendix II for details. The first step is reading in all the reserved words into a linked list. Then, all machines are added to the machine linked list.
+
+Each machine is a struct consisting of a function pointer that has the logic for the machine, the forward pointer, and the backward pointer. The token to be returned is also part of the struct. The advantage to this architecture is that iterating through the linked list, each function can be called until one returns a token.
+
+A token is (as discussed in class) a struct consisting a type, a flag specifying the attribute type, and a union that contains a pointer or an attribute value.
+
+The numerical machines (integer, real, long real) were the most complex due to the different states and errors that could be produced. In all of the numerical machines, the regex \d+ occurs so frequently that a separate function, digit_plus, has been made to compartmentalize the code. The function also returns the length of the regex match, so a too long integer, mantissa, exponent, etc. can be measured. The lexeme also can be checked for a leading or trailing zero when applicable.
+
+The IDRES machine was also somewhat complex, due to the steps of checking the length, checking the reserved word list, checking the symbol table, then adding to the symbol table, stopping when necessary. A full linear search was done on both linked lists of the reserved words and identifiers, something that could be improved in a later version.
+
+The symbol table is the linked list of ID’s that are found in the program. At the moment, the printed table contains the pointer to the char* string, then the lexeme. The pointers are unique and cross-referenced in the token table, so they could be searched for by the parser.
+	Errors are printed to the listing file when they occur, and the corresponding error can also be placed in the token file.
+
+\section*{Discussion and Conclusions}
+A few test cases were made to demonstrate the validity of the lexer. Errors planted in the code were correctly found and dealt with accordingly. Each symbol found was placed in the symbol table.
+
+The lexer was run with all tests using valgrind -v --leak-check=full, and no memory leaks were found. Additionally, the program was compiled with -Wall -Wextra to show all warnings, and the only error to show up was unused parameter.
+
+For optimizations, a binary search tree may be beneficial to use in the future instead of a linked list for ID’s and reserved words for faster search.
+
+\bibliography{project2}
+\bibliographystyle{ieeetr}
+
+\clearpage{}
+\section*{Appendix I: Sample Inputs and Outputs}
+\lstset{language=Pascal}
+
+\subsection*{bad\_lex}
+\lstinputlisting[caption=bad\_lex.pas]{../test/bad_lex.pas}
+\lstinputlisting[caption=bad\_lex.list]{../test/bad_lex.list}
+\lstinputlisting[caption=bad\_lex.sym]{../test/bad_lex.sym}
+\lstinputlisting[caption=bad\_lex.tok]{../test/bad_lex.tok}
+\clearpage{}
+\subsection*{bad\_syn}
+\lstinputlisting[caption=bad\_syn.pas]{../test/bad_syn.pas}
+\lstinputlisting[caption=bad\_syn.list]{../test/bad_syn.list}
+\lstinputlisting[caption=bad\_syn.sym]{../test/bad_syn.sym}
+\lstinputlisting[caption=bad\_syn.tok]{../test/bad_syn.tok}
+\clearpage{}
+\subsection*{gcd}
+\lstinputlisting[caption=gcd.pas]{../test/gcd.pas}
+\lstinputlisting[caption=gcd.list]{../test/gcd.list}
+\lstinputlisting[caption=gcd.sym]{../test/gcd.sym}
+\lstinputlisting[caption=gcd.tok]{../test/gcd.tok}
+\clearpage{}
+\subsection*{test}
+\lstinputlisting[caption=test.pas]{../test/test.pas}
+\lstinputlisting[caption=test.list]{../test/test.list}
+\lstinputlisting[caption=test.sym]{../test/test.sym}
+\lstinputlisting[caption=test.tok]{../test/test.tok}
+\clearpage{}
+\section*{Appendix II: Program Listings}
+\lstset{
+  language=[Ansi]C,
+  tabsize=4,
+  columns=fullflexible
+}
+\begin{multicols}{2}
+
+\lstinputlisting[caption=common/io.c]{../src/common/io.c}
+\lstinputlisting[caption=common/io.h]{../src/common/io.h}
+\lstinputlisting[caption=common/defs.h]{../src/common/defs.h}
+\lstinputlisting[caption=common/util.c]{../src/common/util.c}
+\lstinputlisting[caption=common/util.h]{../src/common/util.h}
+\lstinputlisting[caption=common/token.c]{../src/common/token.c}
+\lstinputlisting[caption=common/token.h]{../src/common/token.h}
+\lstinputlisting[caption=common/idres.c]{../src/common/idres.c}
+\lstinputlisting[caption=common/idres.h]{../src/common/idres.h}
+\lstinputlisting[caption=lexer/main.c]{../src/lexer/main.c}
+\lstinputlisting[caption=lexer/state.c]{../src/lexer/state.c}
+\lstinputlisting[caption=lexer/state.h]{../src/lexer/state.h}
+\lstinputlisting[caption=lexer/fsm.c]{../src/lexer/fsm.c}
+\lstinputlisting[caption=lexer/fsm.h]{../src/lexer/fsm.h}
+\lstinputlisting[caption=lexer/lexerr.c]{../src/lexer/lexerr.c}
+\lstinputlisting[caption=lexer/lexerr.h]{../src/lexer/lexerr.h}
+\lstinputlisting[caption=lexer/machine.c]{../src/lexer/machine.c}
+\lstinputlisting[caption=lexer/machine.h]{../src/lexer/machine.h}
+
+\end{multicols}
+
+\end{document}

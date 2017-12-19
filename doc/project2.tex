@@ -1,0 +1,207 @@
+\documentclass[titlepage]{article}
+\usepackage{multicol}
+\usepackage{color}
+\usepackage{listings}
+\usepackage{flexisym}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[margin=0.5in]{geometry}
+
+
+\lstset{
+  numbers=left,
+  numberstyle=\tiny,
+  basicstyle=\ttfamily,
+  breaklines=true,
+  showstringspaces=false,
+  keywordstyle=\color{black},
+  frame=tb,
+%  tabsize=4,
+%  columns=fullflexible,
+  title=\lstname
+}
+\setlength\columnsep{15pt}
+
+\author{Benjamin James}
+\title{\textbf{CS 4013:  Compiler Construction \\ Project 2}}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section*{Introduction}
+Project 2 consists of ``massaging'' the Pascal grammar into a $LL(1)$ grammar.
+Using the grammar, $first$ and $follow$'s were generated and put into
+a parse table, from which a recursive descent parser was made.
+The parser checks the syntax of the source program and outputs a parse tree
+which can be decorated later. Any errors (lexical or syntax) encountered
+are deposited in the listing file under the appropriate line.
+\section*{Methodology}
+
+There were 6 steps to the process, discussed in Aho et al.\cite{Aho86}
+
+\begin{itemize}
+  \item Find left recursion
+  \item Remove $\epsilon$ in left-recursive productions
+  \item Remove left recursion
+  \item Left factor the grammar to make it a $LL(1)$ grammar
+  \item Compute the $first$ and $follow$ sets for every production
+  \item Create the parse table
+\end{itemize}
+\include{igrammar}
+\include{egrammar}
+\include{rgrammar}
+\include{fgrammar}
+\include{firstfollow}
+\include{parse_table}
+\section*{Implementation}
+The parser is a recursive descent $LL(1)$ parser.
+Each production has its own file and function.
+Each production's function contains an array of the
+expected set and the sync set.
+The expected set is the $first$ unless $first = \{\epsilon\}$, in that case $first = follow$.
+The sync set is the $follow \cup \{\$\}$.
+
+Other special functions:
+\begin{itemize}
+  \item $match()$ - Check if the current token is the matched token, error if it isn't, then get the next token unless the current token is EOF.
+  \item $next\_token()$ - Get the next token from the token file
+  \item $expected\_found()$ - Output the syntax error: ``expected A, found B''
+  \item $sync()$ - Call $next\_token()$ until the token is in the sync set
+\end{itemize}
+\section*{Discussion and Conclusions}
+Implementing this project was very tedious and required
+lots of checking and verification, since the
+next step involves the previous. Many test cases
+help verify this.
+\bibliography{project2}
+\bibliographystyle{ieeetr}
+
+\clearpage{}
+\section*{Appendix I: Sample Inputs and Outputs}
+\lstset{language=Pascal}
+
+\subsection*{bad\_lex}
+\lstinputlisting[caption=bad\_lex.pas]{../test/bad_lex.pas}
+\lstinputlisting[caption=bad\_lex.list]{../test/bad_lex.list}
+\lstinputlisting[caption=bad\_lex.sym]{../test/bad_lex.sym}
+\lstinputlisting[caption=bad\_lex.tok]{../test/bad_lex.tok}
+\clearpage{}
+\subsection*{bad\_syn}
+\lstinputlisting[caption=bad\_syn.pas]{../test/bad_syn.pas}
+\lstinputlisting[caption=bad\_syn.list]{../test/bad_syn.list}
+\lstinputlisting[caption=bad\_syn.sym]{../test/bad_syn.sym}
+\lstinputlisting[caption=bad\_syn.tok]{../test/bad_syn.tok}
+\clearpage{}
+\subsection*{gcd}
+\lstinputlisting[caption=gcd.pas]{../test/gcd.pas}
+\lstinputlisting[caption=gcd.list]{../test/gcd.list}
+\lstinputlisting[caption=gcd.sym]{../test/gcd.sym}
+\lstinputlisting[caption=gcd.tok]{../test/gcd.tok}
+\clearpage{}
+\subsection*{test}
+\lstinputlisting[caption=test.pas]{../test/test.pas}
+\lstinputlisting[caption=test.list]{../test/test.list}
+\lstinputlisting[caption=test.sym]{../test/test.sym}
+\lstinputlisting[caption=test.tok]{../test/test.tok}
+\clearpage{}
+\section*{Appendix II: Sample Inputs and Outputs}
+\lstset{
+  language=[Ansi]C,
+  tabsize=4,
+  columns=fullflexible
+}
+\begin{multicols}{2}
+
+
+\lstinputlisting[caption=common/io.c]{../src/common/io.c}
+\lstinputlisting[caption=common/io.h]{../src/common/io.h}
+\lstinputlisting[caption=common/defs.h]{../src/common/defs.h}
+\lstinputlisting[caption=common/util.c]{../src/common/util.c}
+\lstinputlisting[caption=common/util.h]{../src/common/util.h}
+\lstinputlisting[caption=common/token.c]{../src/common/token.c}
+\lstinputlisting[caption=common/token.h]{../src/common/token.h}
+\lstinputlisting[caption=common/idres.c]{../src/common/idres.c}
+\lstinputlisting[caption=common/idres.h]{../src/common/idres.h}
+\lstinputlisting[caption=lexer/main.c]{../src/lexer/main.c}
+\lstinputlisting[caption=lexer/state.c]{../src/lexer/state.c}
+\lstinputlisting[caption=lexer/state.h]{../src/lexer/state.h}
+\lstinputlisting[caption=lexer/fsm.c]{../src/lexer/fsm.c}
+\lstinputlisting[caption=lexer/fsm.h]{../src/lexer/fsm.h}
+\lstinputlisting[caption=lexer/lexerr.c]{../src/lexer/lexerr.c}
+\lstinputlisting[caption=lexer/lexerr.h]{../src/lexer/lexerr.h}
+\lstinputlisting[caption=lexer/machine.c]{../src/lexer/machine.c}
+\lstinputlisting[caption=lexer/machine.h]{../src/lexer/machine.h}
+\lstinputlisting[caption=parser/main.c]{../src/parser/main.c}
+\lstinputlisting[caption=parser/tokenizer.h]{../src/parser/tokenizer.h}
+\lstinputlisting[caption=parser/tokenizer.c]{../src/parser/tokenizer.c}
+\lstinputlisting[caption=parser/parser.h]{../src/parser/parser.h}
+\lstinputlisting[caption=parser/parser.c]{../src/parser/parser.c}
+\lstinputlisting[caption=parser/prod/arguments.h]{../src/parser/prod/arguments.h}
+\lstinputlisting[caption=parser/prod/arguments.c]{../src/parser/prod/arguments.c}
+\lstinputlisting[caption=parser/prod/compound\_statement.h]{../src/parser/prod/compound_statement.h}
+\lstinputlisting[caption=parser/prod/compound\_statement.c]{../src/parser/prod/compound_statement.c}
+\lstinputlisting[caption=parser/prod/declarations.h]{../src/parser/prod/declarations.h}
+\lstinputlisting[caption=parser/prod/declarations.c]{../src/parser/prod/declarations.c}
+\lstinputlisting[caption=parser/prod/expression.h]{../src/parser/prod/expression.h}
+\lstinputlisting[caption=parser/prod/expression.c]{../src/parser/prod/expression.c}
+\lstinputlisting[caption=parser/prod/expression\_prime.h]{../src/parser/prod/expression_prime.h}
+\lstinputlisting[caption=parser/prod/expression\_prime.c]{../src/parser/prod/expression_prime.c}
+\lstinputlisting[caption=parser/prod/expression\_list.h]{../src/parser/prod/expression_list.h}
+\lstinputlisting[caption=parser/prod/expression\_list.c]{../src/parser/prod/expression_list.c}
+\lstinputlisting[caption=parser/prod/expression\_list\_prime.h]{../src/parser/prod/expression_list_prime.h}
+\lstinputlisting[caption=parser/prod/expression\_list\_prime.c]{../src/parser/prod/expression_list_prime.c}
+\lstinputlisting[caption=parser/prod/factor.h]{../src/parser/prod/factor.h}
+\lstinputlisting[caption=parser/prod/factor.c]{../src/parser/prod/factor.c}
+\lstinputlisting[caption=parser/prod/factor\_prime.h]{../src/parser/prod/factor_prime.h}
+\lstinputlisting[caption=parser/prod/factor\_prime.c]{../src/parser/prod/factor_prime.c}
+\lstinputlisting[caption=parser/prod/identifier\_list.h]{../src/parser/prod/identifier_list.h}
+\lstinputlisting[caption=parser/prod/identifier\_list.c]{../src/parser/prod/identifier_list.c}
+\lstinputlisting[caption=parser/prod/identifier\_list\_prime.h]{../src/parser/prod/identifier_list_prime.h}
+\lstinputlisting[caption=parser/prod/identifier\_list\_prime.c]{../src/parser/prod/identifier_list_prime.c}
+\lstinputlisting[caption=parser/prod/optional\_statements.h]{../src/parser/prod/optional_statements.h}
+\lstinputlisting[caption=parser/prod/optional\_statements.c]{../src/parser/prod/optional_statements.c}
+\lstinputlisting[caption=parser/prod/parameter\_list.h]{../src/parser/prod/parameter_list.h}
+\lstinputlisting[caption=parser/prod/parameter\_list.c]{../src/parser/prod/parameter_list.c}
+\lstinputlisting[caption=parser/prod/parameter\_list\_prime.h]{../src/parser/prod/parameter_list_prime.h}
+\lstinputlisting[caption=parser/prod/parameter\_list\_prime.c]{../src/parser/prod/parameter_list_prime.c}
+\lstinputlisting[caption=parser/prod/program.h]{../src/parser/prod/program.h}
+\lstinputlisting[caption=parser/prod/program.c]{../src/parser/prod/program.c}
+\lstinputlisting[caption=parser/prod/sign.h]{../src/parser/prod/sign.h}
+\lstinputlisting[caption=parser/prod/sign.c]{../src/parser/prod/sign.c}
+\lstinputlisting[caption=parser/prod/simple\_expression.h]{../src/parser/prod/simple_expression.h}
+\lstinputlisting[caption=parser/prod/simple\_expression.c]{../src/parser/prod/simple_expression.c}
+\lstinputlisting[caption=parser/prod/simple\_expression\_prime.h]{../src/parser/prod/simple_expression_prime.h}
+\lstinputlisting[caption=parser/prod/simple\_expression\_prime.c]{../src/parser/prod/simple_expression_prime.c}
+\lstinputlisting[caption=parser/prod/standard\_type.h]{../src/parser/prod/standard_type.h}
+\lstinputlisting[caption=parser/prod/standard\_type.c]{../src/parser/prod/standard_type.c}
+\lstinputlisting[caption=parser/prod/statement.h]{../src/parser/prod/statement.h}
+\lstinputlisting[caption=parser/prod/statement.c]{../src/parser/prod/statement.c}
+\lstinputlisting[caption=parser/prod/statement\_prime.h]{../src/parser/prod/statement_prime.h}
+\lstinputlisting[caption=parser/prod/statement\_prime.c]{../src/parser/prod/statement_prime.c}
+\lstinputlisting[caption=parser/prod/statement\_list.h]{../src/parser/prod/statement_list.h}
+\lstinputlisting[caption=parser/prod/statement\_list.c]{../src/parser/prod/statement_list.c}
+\lstinputlisting[caption=parser/prod/statement\_list\_prime.h]{../src/parser/prod/statement_list_prime.h}
+\lstinputlisting[caption=parser/prod/statement\_list\_prime.c]{../src/parser/prod/statement_list_prime.c}
+\lstinputlisting[caption=parser/prod/subprogram\_declaration.h]{../src/parser/prod/subprogram_declaration.h}
+\lstinputlisting[caption=parser/prod/subprogram\_declaration.c]{../src/parser/prod/subprogram_declaration.c}
+\lstinputlisting[caption=parser/prod/subprogram\_declarations.h]{../src/parser/prod/subprogram_declarations.h}
+\lstinputlisting[caption=parser/prod/subprogram\_declarations.c]{../src/parser/prod/subprogram_declarations.c}
+\lstinputlisting[caption=parser/prod/subprogram\_head.h]{../src/parser/prod/subprogram_head.h}
+\lstinputlisting[caption=parser/prod/subprogram\_head.c]{../src/parser/prod/subprogram_head.c}
+\lstinputlisting[caption=parser/prod/term.h]{../src/parser/prod/term.h}
+\lstinputlisting[caption=parser/prod/term.c]{../src/parser/prod/term.c}
+\lstinputlisting[caption=parser/prod/term\_prime.h]{../src/parser/prod/term_prime.h}
+\lstinputlisting[caption=parser/prod/term\_prime.c]{../src/parser/prod/term_prime.c}
+\lstinputlisting[caption=parser/prod/type.h]{../src/parser/prod/type.h}
+\lstinputlisting[caption=parser/prod/type.c]{../src/parser/prod/type.c}
+\lstinputlisting[caption=parser/prod/variable.h]{../src/parser/prod/variable.h}
+\lstinputlisting[caption=parser/prod/variable.c]{../src/parser/prod/variable.c}
+\lstinputlisting[caption=parser/prod/variable\_prime.h]{../src/parser/prod/variable_prime.h}
+\lstinputlisting[caption=parser/prod/variable\_prime.c]{../src/parser/prod/variable_prime.c}
+
+
+
+\end{multicols}
+
+\end{document}

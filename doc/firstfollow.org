@@ -1,0 +1,58 @@
+|     ID | Production                     | First                        | E? | Follow                                                           |
+|--------+--------------------------------+------------------------------+----+------------------------------------------------------------------|
+|      1 | program                        | *program*                    |    | *$*                                                              |
+|  2.1.1 | identifier\under{}list         | *id*                         |    | *)*                                                              |
+|  2.2.1 | identifier\under{}list\prime   | *,*                          |    | *)*                                                              |
+|  2.2.2 | identifier\under{}list\prime   | \epsilon                     | y  | *)*                                                              |
+|  3.1.1 | declarations                   | *var*                        |    | *function* *begin*                                               |
+|  3.2.1 | declarations                   | \epsilon                     | y  | *function* *begin*                                               |
+|    4.1 | type                           | *integer real*               |    | *;* *)*                                                          |
+|    4.2 | type                           | *array*                      |    | *;* *)*                                                          |
+|    5.1 | standard\under{}type           | *integer*                    |    | *;* *)*                                                          |
+|    5.2 | standard\under{}type           | *real*                       |    | *;* *)*                                                          |
+|  6.1.1 | subprogram\under{}declarations | *function*                   |    | *begin*                                                          |
+|  6.2.1 | subprogram\under{}declarations | \epsilon                     | y  | *begin*                                                          |
+|    7.1 | subprogram\under{}declaration  | *function*                   |    | *;*                                                              |
+|      8 | subprogram\under{}head         | *function*                   |    | *var* *function* *begin*                                         |
+|    9.1 | arguments                      | *(*                          |    | *:*                                                              |
+|    9.2 | arguments                      | \epsilon                     | y  | *:*                                                              |
+| 10.1.1 | parameter\under{}list          | *id*                         |    | *)*                                                              |
+| 10.2.1 | parameter\under{}list\prime    | *;*                          |    | *)*                                                              |
+| 10.2.2 | parameter\under{}list\prime    | \epsilon                     | y  | *)*                                                              |
+|     11 | compound\under{}statement      | *begin*                      |    | *.* *;* *end* *else*                                             |
+|   12.1 | optional\under{}statements     | *id* *begin* *if* *while*    |    | *end*                                                            |
+|   12.2 | optional\under{}statements     | \epsilon                     | y  | *end*                                                            |
+| 13.1.1 | statement\under{}list          | *id* *begin* *if* *while*    |    | *end*                                                            |
+| 13.2.1 | statement\under{}list\prime    | *;*                          |    | *end*                                                            |
+| 13.2.2 | statement\under{}list\prime    | \epsilon                     | y  | *end*                                                            |
+| 14.1.1 | statement                      | *id*                         |    | *end* *else* *;*                                                 |
+| 14.2.1 | statement                      | *begin*                      |    | *end* *else* *;*                                                 |
+| 14.3.1 | statement                      | *if*                         |    | *end* *else* *;*                                                 |
+| 14.4.1 | statement\prime                | *else*                       |    | *end* *else* *;*                                                 |
+| 14.4.2 | statement\prime                | \epsilon                     | y  | *end* *else* *;*                                                 |
+| 14.5.1 | statement                      | *while*                      |    | *end* *else* *;*                                                 |
+| 15.1.1 | variable                       | *id*                         |    | *assignop*                                                       |
+| 15.2.1 | variable\prime                 | *[*                          |    | *assignop*                                                       |
+| 15.2.2 | variable\prime                 | \epsilon                     | y  | *assignop*                                                       |
+| 16.1.1 | expression\under{}list         | *id* *num* *(* *not* *-* *+* |    | *)*                                                              |
+| 16.2.1 | expression\under{}list\prime   | *,*                          |    | *)*                                                              |
+| 16.2.2 | expression\under{}list\prime   | \epsilon                     | y  | *)*                                                              |
+| 17.1.1 | expression                     | *id* *num* *(* *not* *-* *+* |    | *end* *else* *;* *then* *do* *]* *,* *)*                         |
+| 17.2.1 | expression\prime               | \epsilon                     | y  | *end* *else* *;* *then* *do* *]* *,* *)*                         |
+| 17.2.2 | expression\prime               | *relop*                      |    | *end* *else* *;* *then* *do* *]* *,* *)*                         |
+| 18.1.1 | simple\under{}expression       | *id* *num* *(* *not*         |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop*                 |
+| 18.2.1 | simple\under{}expression       | *-* *+*                      |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop*                 |
+| 18.3.1 | simple\under{}expression\prime | *addop*                      |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop*                 |
+| 18.3.2 | simple\under{}expression\prime | \epsilon                     | y  | *end* *else* *;* *then* *do* *]* *,* *)* *relop*                 |
+| 19.1.1 | term                           | *id* *num* *(* *not*         |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop*         |
+| 19.2.1 | term\prime                     | *mulop*                      |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop*         |
+| 19.2.2 | term\prime                     | \epsilon                     | y  | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop*         |
+| 20.1.1 | factor                         | *id*                         |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+| 20.2.1 | factor\prime                   | *[*                          |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+| 20.2.2 | factor\prime                   | \epsilon                     | y  | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+| 20.3.1 | factor\prime                   | *(*                          |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+| 20.4.1 | factor                         | *num*                        |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+| 20.5.1 | factor                         | *(*                          |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+| 20.6.1 | factor                         | *not*                        |    | *end* *else* *;* *then* *do* *]* *,* *)* *relop* *addop* *mulop* |
+|   21.1 | sign                           | *-*                          |    | *id* *num* *(* *not*                                             |
+|   21.2 | sign                           | *+*                          |    | *id* *num* *(* *not*                                             |

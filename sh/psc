@@ -1,0 +1,46 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+use File::Temp qw(tempdir);
+use Cwd qw(getcwd);
+use File::Basename;
+my $reswords = "~/src/compilers/pas/reserved_words";
+
+my $lexer = "~/src/compilers/bin/pslex";
+my $parser = "~/src/compilers/bin/psparse";
+my $dir = tempdir();
+my $olddir = getcwd();
+die "usage: $0 input_file" unless $#ARGV == 0;
+
+system("mkdir -p $dir/" . dirname($ARGV[0]));
+system("cp $ARGV[0] $dir/" . dirname($ARGV[0]));
+
+my $src = "$dir/" . $ARGV[0];
+(my $without_ext = $src) =~ s/\.[^.]+$//;
+my $sym = "$without_ext.sym";
+my $tok = "$without_ext.tok";
+my $lexlist = "$without_ext.list";
+my $synlist = "$without_ext.symlist";
+my $addr = "$without_ext.addr";
+
+system("$lexer $src $reswords > $src.lexout 2>$src.lexerr");
+system("$parser $sym $tok $lexlist $addr $synlist > $src.symout 2>$src.symerr");
+
+open(my $fh, '<', $synlist) or die "couldn't open $synlist $!";
+my $last_line = "";
+while (<$fh>) {
+	my $line = $_;
+	if (/^\d/) {
+		$last_line = $line;
+	} else {
+		print "$line";
+		print "$last_line";
+		print "\n";
+	}
+}
+close $fh;
+
+(my $output_exec = $ARGV[0]) =~ s/\.[^.]+$//;
+
+my $output_code = $output_exec . ".s";
+#system("as $output_code -o $output_exec");

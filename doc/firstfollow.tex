@@ -1,0 +1,95 @@
+% % Created 2017-11-28 Tue 18:11
+% \documentclass[11pt]{article}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{fixltx2e}
+% \usepackage{graphicx}
+% \usepackage{longtable}
+% \usepackage{float}
+% \usepackage{wrapfig}
+% \usepackage{rotating}
+% \usepackage[normalem]{ulem}
+% \usepackage{amsmath}
+% \usepackage{textcomp}
+% \usepackage{marvosym}
+% \usepackage{wasysym}
+% \usepackage{amssymb}
+% \usepackage{hyperref}
+% \tolerance=1000
+% \author{Benjamin James}
+% \date{\today}
+% \title{firstfollow}
+% \hypersetup{
+%   pdfkeywords={},
+%   pdfsubject={},
+%   pdfcreator={Emacs 25.3.1 (Org mode 8.2.10)}}
+% \begin{document}
+
+% \maketitle
+% \tableofcontents
+
+\subsection*{First and Follow}
+\begin{center}
+\begin{tabular}{rllll}
+ID & Production & First & E? & Follow\\
+\hline
+1 & program & \textbf{program} &  & \textbf{\$}\\
+2.1.1 & identifier\_list & \textbf{id} &  & \textbf{)}\\
+2.2.1 & identifier\_list$\prime$ & \textbf{,} &  & \textbf{)}\\
+2.2.2 & identifier\_list$\prime$ & $\epsilon$ & y & \textbf{)}\\
+3.1.1 & declarations & \textbf{var} &  & \textbf{function} \textbf{begin}\\
+3.2.1 & declarations & $\epsilon$ & y & \textbf{function} \textbf{begin}\\
+4.1 & type & \textbf{integer real} &  & \textbf{;} \textbf{)}\\
+4.2 & type & \textbf{array} &  & \textbf{;} \textbf{)}\\
+5.1 & standard\_type & \textbf{integer} &  & \textbf{;} \textbf{)}\\
+5.2 & standard\_type & \textbf{real} &  & \textbf{;} \textbf{)}\\
+6.1.1 & subprogram\_declarations & \textbf{function} &  & \textbf{begin}\\
+6.2.1 & subprogram\_declarations & $\epsilon$ & y & \textbf{begin}\\
+7.1 & subprogram\_declaration & \textbf{function} &  & \textbf{;}\\
+8 & subprogram\_head & \textbf{function} &  & \textbf{var} \textbf{function} \textbf{begin}\\
+9.1 & arguments & \textbf{(} &  & \textbf{:}\\
+9.2 & arguments & $\epsilon$ & y & \textbf{:}\\
+10.1.1 & parameter\_list & \textbf{id} &  & \textbf{)}\\
+10.2.1 & parameter\_list$\prime$ & \textbf{;} &  & \textbf{)}\\
+10.2.2 & parameter\_list$\prime$ & $\epsilon$ & y & \textbf{)}\\
+11 & compound\_statement & \textbf{begin} &  & \textbf{.} \textbf{;} \textbf{end} \textbf{else}\\
+12.1 & optional\_statements & \textbf{id} \textbf{begin} \textbf{if} \textbf{while} &  & \textbf{end}\\
+12.2 & optional\_statements & $\epsilon$ & y & \textbf{end}\\
+13.1.1 & statement\_list & \textbf{id} \textbf{begin} \textbf{if} \textbf{while} &  & \textbf{end}\\
+13.2.1 & statement\_list$\prime$ & \textbf{;} &  & \textbf{end}\\
+13.2.2 & statement\_list$\prime$ & $\epsilon$ & y & \textbf{end}\\
+14.1.1 & statement & \textbf{id} &  & \textbf{end} \textbf{else} \textbf{;}\\
+14.2.1 & statement & \textbf{begin} &  & \textbf{end} \textbf{else} \textbf{;}\\
+14.3.1 & statement & \textbf{if} &  & \textbf{end} \textbf{else} \textbf{;}\\
+14.4.1 & statement$\prime$ & \textbf{else} &  & \textbf{end} \textbf{else} \textbf{;}\\
+14.4.2 & statement$\prime$ & $\epsilon$ & y & \textbf{end} \textbf{else} \textbf{;}\\
+14.5.1 & statement & \textbf{while} &  & \textbf{end} \textbf{else} \textbf{;}\\
+15.1.1 & variable & \textbf{id} &  & \textbf{assignop}\\
+15.2.1 & variable$\prime$ & \textbf{[} &  & \textbf{assignop}\\
+15.2.2 & variable$\prime$ & $\epsilon$ & y & \textbf{assignop}\\
+16.1.1 & expression\_list & \textbf{id} \textbf{num} \textbf{(} \textbf{not} \textbf{-} \textbf{+} &  & \textbf{)}\\
+16.2.1 & expression\_list$\prime$ & \textbf{,} &  & \textbf{)}\\
+16.2.2 & expression\_list$\prime$ & $\epsilon$ & y & \textbf{)}\\
+17.1.1 & expression & \textbf{id} \textbf{num} \textbf{(} \textbf{not} \textbf{-} \textbf{+} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)}\\
+17.2.1 & expression$\prime$ & $\epsilon$ & y & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)}\\
+17.2.2 & expression$\prime$ & \textbf{relop} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)}\\
+18.1.1 & simple\_expression & \textbf{id} \textbf{num} \textbf{(} \textbf{not} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop}\\
+18.2.1 & simple\_expression & \textbf{-} \textbf{+} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop}\\
+18.3.1 & simple\_expression$\prime$ & \textbf{addop} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop}\\
+18.3.2 & simple\_expression$\prime$ & $\epsilon$ & y & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop}\\
+19.1.1 & term & \textbf{id} \textbf{num} \textbf{(} \textbf{not} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop}\\
+19.2.1 & term$\prime$ & \textbf{mulop} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop}\\
+19.2.2 & term$\prime$ & $\epsilon$ & y & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop}\\
+20.1.1 & factor & \textbf{id} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+20.2.1 & factor$\prime$ & \textbf{[} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+20.2.2 & factor$\prime$ & $\epsilon$ & y & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+20.3.1 & factor$\prime$ & \textbf{(} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+20.4.1 & factor & \textbf{num} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+20.5.1 & factor & \textbf{(} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+20.6.1 & factor & \textbf{not} &  & \textbf{end} \textbf{else} \textbf{;} \textbf{then} \textbf{do} \textbf{]} \textbf{,} \textbf{)} \textbf{relop} \textbf{addop} \textbf{mulop}\\
+21.1 & sign & \textbf{-} &  & \textbf{id} \textbf{num} \textbf{(} \textbf{not}\\
+21.2 & sign & \textbf{+} &  & \textbf{id} \textbf{num} \textbf{(} \textbf{not}\\
+\end{tabular}
+\end{center}
+% Emacs 25.3.1 (Org mode 8.2.10)
+%\end{document}

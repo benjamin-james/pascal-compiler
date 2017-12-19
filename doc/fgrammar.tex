@@ -1,0 +1,139 @@
+% % Created 2017-11-28 Tue 17:13
+% \documentclass[10pt]{article}
+% \usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+% \usepackage{fixltx2e}
+% \usepackage{graphicx}
+% \usepackage{longtable}
+% \usepackage{float}
+% \usepackage{wrapfig}
+% \usepackage{rotating}
+% \usepackage[normalem]{ulem}
+% \usepackage{amsmath}
+% \usepackage{textcomp}
+% \usepackage{marvosym}
+% \usepackage{wasysym}
+% \usepackage{amssymb}
+% \usepackage{hyperref}
+% \usepackage{flexisym}
+% \tolerance=1000
+% \usepackage{titlesec}
+% \usepackage{xpatch}
+% \usepackage[margin=0.5in]{geometry}
+
+% \begin{document}
+\subsection*{Removal of Left Factoring}
+1    \emph{program} $\rightarrow$ \textbf{program} \textbf{id} \textbf{(} \emph{identifier\_list} \textbf{)} \textbf{;} \emph{declarations} \emph{subprogram\_declarations} \emph{compound\_statement} \textbf{.}
+
+
+2.1.1  \emph{identifier\_list} $\rightarrow$ \textbf{id} \emph{identifier\_list\textprime}
+
+2.2.1  \emph{identifier\_list\textprime} $\rightarrow$ \textbf{,} \textbf{id} \emph{identifier\_list\textprime}
+
+2.2.2 \emph{identifier\_list\textprime} $\rightarrow$ $\epsilon$
+
+3.1.1  \emph{declarations} $\rightarrow$ \textbf{var} \textbf{id} \textbf{:} \emph{type} \textbf{;} \emph{declarations}
+
+3.2.1  \emph{declarations} $\rightarrow$ $\epsilon$
+
+4.1  \emph{type} $\rightarrow$ \emph{standard\_type}
+
+4.2  \emph{type} $\rightarrow$ \textbf{array} \textbf{[} \textbf{num} \textbf{..} \textbf{num} \textbf{]} \textbf{of} \emph{standard\_type}
+
+5.1  \emph{standard\_type} $\rightarrow$ \textbf{integer}
+
+5.2  \emph{standard\_type} $\rightarrow$ \textbf{real}
+
+6.1.1  \emph{subprogram\_declarations} $\rightarrow$ \emph{subprogram\_declaration} \textbf{;} \emph{subprogram\_declarations}
+
+6.2.1  \emph{subprogram\_declarations} $\rightarrow$ $\epsilon$
+
+7    \emph{subprogram\_declaration} $\rightarrow$ \emph{subprogram\_head} \emph{declarations} \emph{subprogram\_declarations} \emph{compound\_statement}
+
+8    \emph{subprogram\_head} $\rightarrow$ \textbf{function} \textbf{id} \emph{arguments} \textbf{:} \emph{standard\_type} \textbf{;}
+
+9.1  \emph{arguments} $\rightarrow$ \textbf{(} \emph{parameter\_list} \textbf{)}
+
+9.2  \emph{arguments} $\rightarrow$ $\epsilon$
+
+10.1.1 \emph{parameter\_list} $\rightarrow$ \textbf{id} \textbf{:} \emph{type} \emph{parameter\_list\textprime}
+
+10.2.1 \emph{parameter\_list\textprime} $\rightarrow$ \textbf{;} \textbf{id} \textbf{:} \emph{type} \emph{parameter\_list\textprime}
+
+10.2.2 \emph{parameter\_list\textprime} $\rightarrow$ $\epsilon$
+
+11   \emph{compound\_statement} $\rightarrow$ \textbf{begin} \emph{optional\_statements} \textbf{end}
+
+12.1 \emph{optional\_statements} $\rightarrow$ \emph{statement\_list}
+
+12.2 \emph{optional\_statements} $\rightarrow$ $\epsilon$
+
+13.1.1 \emph{statement\_list} $\rightarrow$ \emph{statement} \emph{statement\_list\textprime}
+
+13.2.1 \emph{statement\_list\textprime} $\rightarrow$ \textbf{;} \emph{statement} \emph{statement\_list\textprime}
+
+13.2.2 \emph{statement\_list\textprime} $\rightarrow$ $\epsilon$
+
+14.1.1 \emph{statement} $\rightarrow$ \emph{variable} \textbf{assignop} \emph{expression}
+
+14.2.1 \emph{statement} $\rightarrow$ \emph{compound\_statement}
+
+14.3.1 \emph{statement} $\rightarrow$ \textbf{if} \emph{expression} \textbf{then} \emph{statement} \emph{statement\textprime}
+
+14.4.1 \emph{statement\textprime} $\rightarrow$ \textbf{else} \emph{statement}
+
+14.4.2 \emph{statement\textprime} $\rightarrow$ $\epsilon$
+
+14.5.1 \emph{statement} $\rightarrow$ \textbf{while} \emph{expression} \textbf{do} \emph{statement}
+
+15.1.1 \emph{variable} $\rightarrow$ \textbf{id} \emph{variable\textprime}
+
+15.2.1 \emph{variable\textprime} $\rightarrow$ \textbf{[} \emph{expression} \textbf{]}
+
+15.2.2 \emph{variable\textprime} $\rightarrow$ $\epsilon$
+
+16.1.1 \emph{expression\_list} $\rightarrow$ \emph{expression} \emph{expression\_list\textprime}
+
+16.2.1 \emph{expression\_list\textprime} $\rightarrow$ \textbf{,} \emph{expression} \emph{expression\_list\textprime}
+
+16.2.2 \emph{expression\_list\textprime} $\rightarrow$ $\epsilon$
+
+17.1.1 \emph{expression} $\rightarrow$ \emph{simple\_expression} \emph{expression\textprime}
+
+17.2.1 \emph{expression\textprime} $\rightarrow$ $\epsilon$
+
+17.2.2 \emph{expression\textprime} $\rightarrow$ \textbf{relop} \emph{simple\_expression}
+
+18.1.1 \emph{simple\_expression} $\rightarrow$ \emph{term} \emph{simple\_expression\textprime}
+
+18.2.1 \emph{simple\_expression} $\rightarrow$ \emph{sign} \emph{term} \emph{simple\_expression\textprime}
+
+18.3.1 \emph{simple\_expression\textprime} $\rightarrow$ \textbf{addop} \emph{term} \emph{simple\_expression\textprime}
+
+18.3.2 \emph{simple\_expression\textprime} $\rightarrow$ $\epsilon$
+
+19.1.1 \emph{term} $\rightarrow$ \emph{factor} \emph{term\textprime}
+
+19.2.1 \emph{term\textprime} $\rightarrow$ \textbf{mulop} \emph{factor} \emph{term\textprime}
+
+19.2.2 \emph{term\textprime} $\rightarrow$ $\epsilon$
+
+20.1.1 \emph{factor} $\rightarrow$ \textbf{id} \emph{factor\textprime}
+
+20.2.1 \emph{factor\textprime} $\rightarrow$ \textbf{[} \emph{expression} \textbf{]}
+
+20.2.2 \emph{factor\textprime} $\rightarrow$ $\epsilon$
+
+20.3.1 \emph{factor\textprime} $\rightarrow$ \textbf{(} \emph{expression\_list} \textbf{)}
+
+20.4.1 \emph{factor} $\rightarrow$ \textbf{num}
+
+20.5.1 \emph{factor} $\rightarrow$ \textbf{(} \emph{expression} \textbf{)}
+
+20.6.1 \emph{factor} $\rightarrow$ \textbf{not} \emph{factor}
+
+21.1 \emph{sign} $\rightarrow$ \textbf{+}
+
+21.2 \emph{sign} $\rightarrow$ \textbf{-}
+% Emacs 25.3.1 (Org mode 8.2.10)
+% \end{document}
