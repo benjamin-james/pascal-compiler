@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Grammar</title>
+<!-- 2017-11-28 Tue 17:23 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Benjamin James" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+Benjamin James
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Grammar</h1>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> \normalfont\textit{program}</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> <i>program</i> &rarr; <b>program</b> <b>id</b> <b>(</b> <i>identifier_list</i> <b>)</b> <b>;</b> <i>declarations</i> <i>subprogram_declarations</i> <i>compound_statement</i> <b>.</b></h3>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <i>identifier_list</i></h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> <i>identifier_list</i> &rarr; <b>id</b></h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> <i>identifier_list</i> &rarr;  <b>id</b> <i>identifier_list&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> <i>identifier_list</i> &rarr; <i>identifier_list</i> *,* <b>id</b></h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> <i>identifier_list&prime;</i> &rarr; *,* <b>id</b>  <i>identifier_list&prime;</i></h4>
+</div>
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2"><span class="section-number-4">2.2.2</span> <i>identifier_list&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <i>declarations</i></h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <i>declarations</i> &rarr; <i>declarations</i> <b>var</b> <b>id</b> <b>:</b> <i>type</i> <b>;</b></h3>
+<div class="outline-text-3" id="text-3-1">
+</div><div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> <i>declarations</i> &rarr; <b>var</b> <b>id</b> <b>:</b> <i>type</i> <b>;</b> <i>declarations</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> <i>declarations</i> &rarr; &epsilon;</h3>
+<div class="outline-text-3" id="text-3-2">
+</div><div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> <i>declarations</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> <i>type</i></h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> <i>type</i> &rarr; <i>standard_type</i></h3>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> <i>type</i> &rarr; <b>array</b> <b>[</b> <b>num</b> <b>..</b> <b>num</b> <b>]</b> <b>of</b> <i>standard_type</i></h3>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> <i>standard_type</i></h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <i>standard_type</i> &rarr; <b>integer</b></h3>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <i>standard_type</i> &rarr; <b>real</b></h3>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> <i>subprogram_declarations</i></h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> <i>subprogram_declarations</i> &rarr; <i>subprogram_declarations</i> <i>subprogram_declaration</i> <b>;</b></h3>
+<div class="outline-text-3" id="text-6-1">
+</div><div id="outline-container-sec-6-1-1" class="outline-4">
+<h4 id="sec-6-1-1"><span class="section-number-4">6.1.1</span> <i>subprogram_declarations</i> &rarr; <i>subprogram_declaration</i> <b>;</b> <i>subprogram_declarations</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> <i>subprogram_declarations</i> &rarr; &epsilon;</h3>
+<div class="outline-text-3" id="text-6-2">
+</div><div id="outline-container-sec-6-2-1" class="outline-4">
+<h4 id="sec-6-2-1"><span class="section-number-4">6.2.1</span> <i>subprogram_declarations</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> <i>subprogram_declaration</i></h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> <i>subprogram_declaration</i> &rarr; <i>subprogram_head</i> <i>declarations</i> <i>subprogram_declarations</i> <i>compound_statement</i></h3>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> <i>subprogram_head</i></h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> <i>subprogram_head</i> &rarr; <b>function</b> <b>id</b> <i>arguments</i> <b>:</b> <i>standard_type</i> <b>;</b></h3>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> <i>arguments</i></h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> <i>arguments</i> &rarr; <b>(</b> <i>parameter_list</i> <b>)</b></h3>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> <i>arguments</i> &rarr; &epsilon;</h3>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> <i>parameter_list</i></h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> <i>parameter_list</i> &rarr; <b>id</b> <b>:</b> <i>type</i></h3>
+<div class="outline-text-3" id="text-10-1">
+</div><div id="outline-container-sec-10-1-1" class="outline-4">
+<h4 id="sec-10-1-1"><span class="section-number-4">10.1.1</span> <i>parameter_list</i> &rarr; <b>id</b> <b>:</b> <i>type</i> <i>parameter_list&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> <i>parameter_list</i> &rarr; <i>parameter_list</i> <b>;</b> <b>id</b> <b>:</b> <i>type</i></h3>
+<div class="outline-text-3" id="text-10-2">
+</div><div id="outline-container-sec-10-2-1" class="outline-4">
+<h4 id="sec-10-2-1"><span class="section-number-4">10.2.1</span> <i>parameter_list&prime;</i> &rarr; <b>;</b> <b>id</b> <b>:</b> <i>type</i> <i>parameter_list&prime;</i></h4>
+</div>
+<div id="outline-container-sec-10-2-2" class="outline-4">
+<h4 id="sec-10-2-2"><span class="section-number-4">10.2.2</span> <i>parameter_list&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> <i>compound_statement</i></h2>
+<div class="outline-text-2" id="text-11">
+</div><div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1"><span class="section-number-3">11.1</span> <i>compound_statement</i> &rarr; <b>begin</b> <i>optional_statements</i> <b>end</b></h3>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> <i>optional_statements</i></h2>
+<div class="outline-text-2" id="text-12">
+</div><div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> <i>optional_statements</i> &rarr; <i>statement_list</i></h3>
+</div>
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2"><span class="section-number-3">12.2</span> <i>optional_statements</i> &rarr; &epsilon;</h3>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> <i>statement_list</i></h2>
+<div class="outline-text-2" id="text-13">
+</div><div id="outline-container-sec-13-1" class="outline-3">
+<h3 id="sec-13-1"><span class="section-number-3">13.1</span> <i>statement_list</i> &rarr; <i>statement</i></h3>
+<div class="outline-text-3" id="text-13-1">
+</div><div id="outline-container-sec-13-1-1" class="outline-4">
+<h4 id="sec-13-1-1"><span class="section-number-4">13.1.1</span> <i>statement_list</i> &rarr; <i>statement</i> <i>statement_list&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-13-2" class="outline-3">
+<h3 id="sec-13-2"><span class="section-number-3">13.2</span> <i>statement_list</i> &rarr; <i>statement_list</i> <b>;</b> <i>statement</i></h3>
+<div class="outline-text-3" id="text-13-2">
+</div><div id="outline-container-sec-13-2-1" class="outline-4">
+<h4 id="sec-13-2-1"><span class="section-number-4">13.2.1</span> <i>statement_list&prime;</i> &rarr; <b>;</b> <i>statement</i> <i>statement_list&prime;</i></h4>
+</div>
+<div id="outline-container-sec-13-2-2" class="outline-4">
+<h4 id="sec-13-2-2"><span class="section-number-4">13.2.2</span> <i>statement_list&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> <i>statement</i></h2>
+<div class="outline-text-2" id="text-14">
+</div><div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1"><span class="section-number-3">14.1</span> <i>statement</i> &rarr; <i>variable</i> <b>assignop</b> <i>expression</i></h3>
+<div class="outline-text-3" id="text-14-1">
+</div><div id="outline-container-sec-14-1-1" class="outline-4">
+<h4 id="sec-14-1-1"><span class="section-number-4">14.1.1</span> <i>statement</i> &rarr; <i>variable</i> <b>assignop</b> <i>expression</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2"><span class="section-number-3">14.2</span> <i>statement</i> &rarr; <i>compound_statement</i></h3>
+<div class="outline-text-3" id="text-14-2">
+</div><div id="outline-container-sec-14-2-1" class="outline-4">
+<h4 id="sec-14-2-1"><span class="section-number-4">14.2.1</span> <i>statement</i> &rarr; <i>compound_statement</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-14-3" class="outline-3">
+<h3 id="sec-14-3"><span class="section-number-3">14.3</span> <i>statement</i> &rarr; <b>if</b> <i>expression</i> <b>then</b> <i>statement</i></h3>
+<div class="outline-text-3" id="text-14-3">
+</div><div id="outline-container-sec-14-3-1" class="outline-4">
+<h4 id="sec-14-3-1"><span class="section-number-4">14.3.1</span> <i>statement</i> &rarr; <b>if</b> <i>expression</i> <b>then</b> <i>statement</i> <i>statement&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-14-4" class="outline-3">
+<h3 id="sec-14-4"><span class="section-number-3">14.4</span> <i>statement</i> &rarr; <b>if</b> <i>expression</i> <b>then</b> <i>statement</i> <b>else</b> <i>statement</i></h3>
+<div class="outline-text-3" id="text-14-4">
+</div><div id="outline-container-sec-14-4-1" class="outline-4">
+<h4 id="sec-14-4-1"><span class="section-number-4">14.4.1</span> <i>statement&prime;</i> &rarr; <b>else</b> <i>statement</i></h4>
+</div>
+<div id="outline-container-sec-14-4-2" class="outline-4">
+<h4 id="sec-14-4-2"><span class="section-number-4">14.4.2</span> <i>statement&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+<div id="outline-container-sec-14-5" class="outline-3">
+<h3 id="sec-14-5"><span class="section-number-3">14.5</span> <i>statement</i> &rarr; <b>while</b> <i>expression</i> <b>do</b> <i>statement</i></h3>
+<div class="outline-text-3" id="text-14-5">
+</div><div id="outline-container-sec-14-5-1" class="outline-4">
+<h4 id="sec-14-5-1"><span class="section-number-4">14.5.1</span> <i>statement</i> &rarr; <b>while</b> <i>expression</i> <b>do</b> <i>statement</i></h4>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> <i>variable</i></h2>
+<div class="outline-text-2" id="text-15">
+</div><div id="outline-container-sec-15-1" class="outline-3">
+<h3 id="sec-15-1"><span class="section-number-3">15.1</span> <i>variable</i> &rarr; <b>id</b></h3>
+<div class="outline-text-3" id="text-15-1">
+</div><div id="outline-container-sec-15-1-1" class="outline-4">
+<h4 id="sec-15-1-1"><span class="section-number-4">15.1.1</span> <i>variable</i> &rarr; <b>id</b> <i>variable&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-15-2" class="outline-3">
+<h3 id="sec-15-2"><span class="section-number-3">15.2</span> <i>variable</i> &rarr; <b>id</b> <b>[</b> <i>expression</i> <b>]</b></h3>
+<div class="outline-text-3" id="text-15-2">
+</div><div id="outline-container-sec-15-2-1" class="outline-4">
+<h4 id="sec-15-2-1"><span class="section-number-4">15.2.1</span> <i>variable&prime;</i> &rarr; <b>[</b> <i>expression</i> <b>]</b></h4>
+</div>
+<div id="outline-container-sec-15-2-2" class="outline-4">
+<h4 id="sec-15-2-2"><span class="section-number-4">15.2.2</span> <i>variable&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> <i>expression_list</i></h2>
+<div class="outline-text-2" id="text-16">
+</div><div id="outline-container-sec-16-1" class="outline-3">
+<h3 id="sec-16-1"><span class="section-number-3">16.1</span> <i>expression_list</i> &rarr; <i>expression</i></h3>
+<div class="outline-text-3" id="text-16-1">
+</div><div id="outline-container-sec-16-1-1" class="outline-4">
+<h4 id="sec-16-1-1"><span class="section-number-4">16.1.1</span> <i>expression_list</i> &rarr; <i>expression</i> <i>expression_list&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-16-2" class="outline-3">
+<h3 id="sec-16-2"><span class="section-number-3">16.2</span> <i>expression_list</i> &rarr; <i>expression_list</i> , <i>expression</i></h3>
+<div class="outline-text-3" id="text-16-2">
+</div><div id="outline-container-sec-16-2-1" class="outline-4">
+<h4 id="sec-16-2-1"><span class="section-number-4">16.2.1</span> <i>expression_list&prime;</i> &rarr; *,* <i>expression</i> <i>expression_list&prime;</i></h4>
+</div>
+<div id="outline-container-sec-16-2-2" class="outline-4">
+<h4 id="sec-16-2-2"><span class="section-number-4">16.2.2</span> <i>expression_list&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> <i>expression</i></h2>
+<div class="outline-text-2" id="text-17">
+</div><div id="outline-container-sec-17-1" class="outline-3">
+<h3 id="sec-17-1"><span class="section-number-3">17.1</span> <i>expression</i> &rarr; <i>simple_expression</i></h3>
+<div class="outline-text-3" id="text-17-1">
+</div><div id="outline-container-sec-17-1-1" class="outline-4">
+<h4 id="sec-17-1-1"><span class="section-number-4">17.1.1</span> <i>expression</i> &rarr; <i>simple_expression</i> <i>expression&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-17-2" class="outline-3">
+<h3 id="sec-17-2"><span class="section-number-3">17.2</span> <i>expression</i> &rarr; <i>simple_expression</i> <b>relop</b> <i>simple_expression</i></h3>
+<div class="outline-text-3" id="text-17-2">
+</div><div id="outline-container-sec-17-2-1" class="outline-4">
+<h4 id="sec-17-2-1"><span class="section-number-4">17.2.1</span> <i>expression&prime;</i> &rarr; &epsilon;</h4>
+</div>
+<div id="outline-container-sec-17-2-2" class="outline-4">
+<h4 id="sec-17-2-2"><span class="section-number-4">17.2.2</span> <i>expression&prime;</i> &rarr; <b>relop</b> <i>simple_expression</i></h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18"><span class="section-number-2">18</span> <i>simple_expression</i></h2>
+<div class="outline-text-2" id="text-18">
+</div><div id="outline-container-sec-18-1" class="outline-3">
+<h3 id="sec-18-1"><span class="section-number-3">18.1</span> <i>simple_expression</i> &rarr; <i>term</i></h3>
+<div class="outline-text-3" id="text-18-1">
+</div><div id="outline-container-sec-18-1-1" class="outline-4">
+<h4 id="sec-18-1-1"><span class="section-number-4">18.1.1</span> <i>simple_expression</i> &rarr; <i>term</i> <i>simple_expression&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-18-2" class="outline-3">
+<h3 id="sec-18-2"><span class="section-number-3">18.2</span> <i>simple_expression</i> &rarr; <i>sign</i> <i>term</i></h3>
+<div class="outline-text-3" id="text-18-2">
+</div><div id="outline-container-sec-18-2-1" class="outline-4">
+<h4 id="sec-18-2-1"><span class="section-number-4">18.2.1</span> <i>simple_expression</i> &rarr; <i>sign</i> <i>term</i> <i>simple_expression&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-18-3" class="outline-3">
+<h3 id="sec-18-3"><span class="section-number-3">18.3</span> <i>simple_expression</i> &rarr; <i>simple_expression</i> <b>addop</b> <i>term</i></h3>
+<div class="outline-text-3" id="text-18-3">
+</div><div id="outline-container-sec-18-3-1" class="outline-4">
+<h4 id="sec-18-3-1"><span class="section-number-4">18.3.1</span> <i>simple_expression&prime;</i> &rarr; <b>addop</b> <i>term</i> <i>simple_expression&prime;</i></h4>
+</div>
+<div id="outline-container-sec-18-3-2" class="outline-4">
+<h4 id="sec-18-3-2"><span class="section-number-4">18.3.2</span> <i>simple_expression&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19"><span class="section-number-2">19</span> <i>term</i></h2>
+<div class="outline-text-2" id="text-19">
+</div><div id="outline-container-sec-19-1" class="outline-3">
+<h3 id="sec-19-1"><span class="section-number-3">19.1</span> <i>term</i> &rarr; <i>factor</i></h3>
+<div class="outline-text-3" id="text-19-1">
+</div><div id="outline-container-sec-19-1-1" class="outline-4">
+<h4 id="sec-19-1-1"><span class="section-number-4">19.1.1</span> <i>term</i> &rarr; <i>factor</i> <i>term&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-19-2" class="outline-3">
+<h3 id="sec-19-2"><span class="section-number-3">19.2</span> <i>term</i> &rarr; <i>term</i> <b>mulop</b> <i>factor</i></h3>
+<div class="outline-text-3" id="text-19-2">
+</div><div id="outline-container-sec-19-2-1" class="outline-4">
+<h4 id="sec-19-2-1"><span class="section-number-4">19.2.1</span> <i>term&prime;</i> &rarr; <b>mulop</b> <i>factor</i> <i>term&prime;</i></h4>
+</div>
+<div id="outline-container-sec-19-2-2" class="outline-4">
+<h4 id="sec-19-2-2"><span class="section-number-4">19.2.2</span> <i>term&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-20" class="outline-2">
+<h2 id="sec-20"><span class="section-number-2">20</span> <i>factor</i></h2>
+<div class="outline-text-2" id="text-20">
+</div><div id="outline-container-sec-20-1" class="outline-3">
+<h3 id="sec-20-1"><span class="section-number-3">20.1</span> <i>factor</i> &rarr; <b>id</b></h3>
+<div class="outline-text-3" id="text-20-1">
+</div><div id="outline-container-sec-20-1-1" class="outline-4">
+<h4 id="sec-20-1-1"><span class="section-number-4">20.1.1</span> <i>factor</i> &rarr; <b>id</b> <i>factor&prime;</i></h4>
+</div>
+</div>
+<div id="outline-container-sec-20-2" class="outline-3">
+<h3 id="sec-20-2"><span class="section-number-3">20.2</span> <i>factor</i> &rarr; <b>id</b> <b>[</b> <i>expression</i> <b>]</b></h3>
+<div class="outline-text-3" id="text-20-2">
+</div><div id="outline-container-sec-20-2-1" class="outline-4">
+<h4 id="sec-20-2-1"><span class="section-number-4">20.2.1</span> <i>factor&prime;</i> &rarr; <b>[</b> <i>expression</i> <b>]</b></h4>
+</div>
+<div id="outline-container-sec-20-2-2" class="outline-4">
+<h4 id="sec-20-2-2"><span class="section-number-4">20.2.2</span> <i>factor&prime;</i> &rarr; &epsilon;</h4>
+</div>
+</div>
+<div id="outline-container-sec-20-3" class="outline-3">
+<h3 id="sec-20-3"><span class="section-number-3">20.3</span> <i>factor</i> &rarr; <b>id</b> <b>(</b> <i>expression_list</i> <b>)</b></h3>
+<div class="outline-text-3" id="text-20-3">
+</div><div id="outline-container-sec-20-3-1" class="outline-4">
+<h4 id="sec-20-3-1"><span class="section-number-4">20.3.1</span> <i>factor&prime;</i> &rarr; <b>(</b> <i>expression_list</i> <b>)</b></h4>
+</div>
+</div>
+<div id="outline-container-sec-20-4" class="outline-3">
+<h3 id="sec-20-4"><span class="section-number-3">20.4</span> <i>factor</i> &rarr; <b>num</b></h3>
+<div class="outline-text-3" id="text-20-4">
+</div><div id="outline-container-sec-20-4-1" class="outline-4">
+<h4 id="sec-20-4-1"><span class="section-number-4">20.4.1</span> <i>factor</i> &rarr; <b>num</b></h4>
+</div>
+</div>
+<div id="outline-container-sec-20-5" class="outline-3">
+<h3 id="sec-20-5"><span class="section-number-3">20.5</span> <i>factor</i> &rarr; <b>(</b> <i>expression</i> <b>)</b></h3>
+<div class="outline-text-3" id="text-20-5">
+</div><div id="outline-container-sec-20-5-1" class="outline-4">
+<h4 id="sec-20-5-1"><span class="section-number-4">20.5.1</span> <i>factor</i> &rarr; <b>(</b> <i>expression</i> <b>)</b></h4>
+</div>
+</div>
+<div id="outline-container-sec-20-6" class="outline-3">
+<h3 id="sec-20-6"><span class="section-number-3">20.6</span> <i>factor</i> &rarr; <b>not</b> <i>factor</i></h3>
+<div class="outline-text-3" id="text-20-6">
+</div><div id="outline-container-sec-20-6-1" class="outline-4">
+<h4 id="sec-20-6-1"><span class="section-number-4">20.6.1</span> <i>factor</i> &rarr; <b>not</b> <i>factor</i></h4>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-21" class="outline-2">
+<h2 id="sec-21"><span class="section-number-2">21</span> <i>sign</i></h2>
+<div class="outline-text-2" id="text-21">
+</div><div id="outline-container-sec-21-1" class="outline-3">
+<h3 id="sec-21-1"><span class="section-number-3">21.1</span> <i>sign</i> &rarr; <b>+</b></h3>
+</div>
+<div id="outline-container-sec-21-2" class="outline-3">
+<h3 id="sec-21-2"><span class="section-number-3">21.2</span> <i>sign</i> &rarr; <b>-</b></h3>
+</div>
+</div>
+</div>
+</body>
+</html>
